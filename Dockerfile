@@ -24,13 +24,15 @@ RUN /app/artemis/bin/artemis create --user artemis \
                                     --password artemis \
                                     --allow-anonymous \
                                     /app/instance
+RUN sed -i 's,<binding name="artemis" uri="http://localhost:8161">,<binding name="artemis" uri="http://0.0.0.0:8161">,g' /app/instance/etc/bootstrap.xml
+RUN sed -i 's,<allow-origin>*://localhost*</allow-origin>,<allow-origin>*://*</allow-origin>,g' /app/instance/etc/jolokia-access.xml
 
 RUN groupadd -g 1000 -r artemis && \
     useradd -r -u 1000 -g artemis artemis && \
     chown -R artemis:artemis /app/instance
 
 EXPOSE  8161 \
-        6161
+        61616
 
 USER artemis
 WORKDIR /app/instance

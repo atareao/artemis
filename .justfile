@@ -10,7 +10,16 @@ build:
                  .
 
 enter:
-    docker run -it --rm --init {{user}}/{{name}}:latest bash
+    docker run  -it \
+                --rm \
+                --init \
+                {{user}}/{{name}}:latest bash
 
 run:
-    docker run --detach --rm --init --name artemis {{user}}/{{name}}:latest
+    docker run  --detach \
+                --rm \
+                --init \
+                --publish 8161:8161 \
+                --publish 61616:61616 \
+                --name artemis \
+                {{user}}/{{name}}:latest
